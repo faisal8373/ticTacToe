@@ -20,14 +20,7 @@ import {
   FlatList,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import Board from './components/Board';
+
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Snackbar from 'react-native-snackbar';
@@ -92,7 +85,7 @@ function App(): React.JSX.Element {
 
 
   }
-  console.log(dataArray)
+ 
 
   function getWinner(){
     let winner = ''
