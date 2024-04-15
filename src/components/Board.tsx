@@ -11,7 +11,7 @@ export default function Board() {
     
       
     
-    <Icon name='edit' size={40} color='#900' />
+    
    
     
    
@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
 
 selection:{
     backgroundColor: '#95e89d',
-    padding: 25,
-   
+    padding: 10,
+   width: 100,
     margin: 10,
     borderRadius: 20,
 }
