@@ -20,17 +20,12 @@ import {
   FlatList,
 } from 'react-native';
 
-
-
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Snackbar from 'react-native-snackbar';
 
 function App(): React.JSX.Element {
-
-
-
   const [turn, setTurn] = useState('circle');
-  
+
   const [boardInfo, setBoardInfo] = useState<BoardInfo>({
     topLeft: '',
     topCenter: '',
@@ -44,99 +39,100 @@ function App(): React.JSX.Element {
   });
   const dataArray: [string, string][] = Object.entries(boardInfo);
   const updateBoardInfo = (key: keyof BoardInfo, value: string) => {
-    const dataArray: [string, string][] = Object.entries(boardInfo);
-    if(getWinner()){
-      let winner = getWinner() === 'circle' ? '0' : 'X' 
+    console.log(boardInfo);
+
+    if (getWinner()) {
+      let winner = getWinner() === 'circle' ? '0' : 'X';
       Snackbar.show({
-        text: winner.toString(),
-        backgroundColor: "#EA7773",
-        textColor: "#000000"
-      })
-    reloadGame()
+        text: winner.toString() + ' has won',
+        backgroundColor: '#EA7773',
+        textColor: '#000000',
+      });
+      reloadGame();
+      return;
     }
-
-
-    
 
     if (!boardInfo[key]) {
       setBoardInfo(prevState => ({
         ...prevState,
         [key]: value,
       }));
-      turn === 'times' ? setTurn('circle') : setTurn('times')
-      
-     
+      turn === 'times' ? setTurn('circle') : setTurn('times');
     }
-    
   };
   function reloadGame() {
-    setTurn('circle')
-   setBoardInfo({
-    topLeft: '',
-    topCenter: '',
-    topRight: '',
-    midLeft: '',
-    midCenter: '',
-    midRight: '',
-    bottomLeft: '',
-    bottomCenter: '',
-    bottomRight: '',
-   })
-
-
+    setTurn('circle');
+    setBoardInfo({
+      topLeft: '',
+      topCenter: '',
+      topRight: '',
+      midLeft: '',
+      midCenter: '',
+      midRight: '',
+      bottomLeft: '',
+      bottomCenter: '',
+      bottomRight: '',
+    });
   }
- 
 
-  function getWinner(){
-    let winner = ''
-    if(
+  function getWinner() {
+    let winner = '';
+    if (
       boardInfo.topRight === boardInfo.topCenter &&
-      boardInfo.topRight === boardInfo. topLeft &&
-      boardInfo. topRight !== ''
-    )
-    {return winner = boardInfo.topRight}
-    if(
+      boardInfo.topRight === boardInfo.topLeft &&
+      boardInfo.topRight !== ''
+    ) {
+      return (winner = boardInfo.topRight);
+    }
+    if (
       boardInfo.midRight === boardInfo.midCenter &&
-      boardInfo.midRight === boardInfo. midLeft &&
-      boardInfo. midRight !== ''
-    )
-    {return winner = boardInfo.midRight}
-    if(
+      boardInfo.midRight === boardInfo.midLeft &&
+      boardInfo.midRight !== ''
+    ) {
+      return (winner = boardInfo.midRight);
+    }
+    if (
       boardInfo.bottomRight === boardInfo.bottomCenter &&
-      boardInfo.bottomRight === boardInfo. bottomLeft &&
-      boardInfo. bottomRight !== ''
-    )
-    {return winner = boardInfo.bottomRight}
-    if(
+      boardInfo.bottomRight === boardInfo.bottomLeft &&
+      boardInfo.bottomRight !== ''
+    ) {
+      return (winner = boardInfo.bottomRight);
+    }
+    if (
       boardInfo.topLeft === boardInfo.midLeft &&
-      boardInfo.midLeft === boardInfo. bottomLeft &&
-      boardInfo. topLeft !== ''
-    )
-    {return winner = boardInfo.topLeft}
-    if(
+      boardInfo.midLeft === boardInfo.bottomLeft &&
+      boardInfo.topLeft !== ''
+    ) {
+      return (winner = boardInfo.topLeft);
+    }
+    if (
       boardInfo.topCenter === boardInfo.midCenter &&
-      boardInfo.midCenter === boardInfo. bottomCenter &&
-      boardInfo. topCenter !== ''
-    )
-    {return winner = boardInfo.topCenter}
-    if(
+      boardInfo.midCenter === boardInfo.bottomCenter &&
+      boardInfo.topCenter !== ''
+    ) {
+      return (winner = boardInfo.topCenter);
+    }
+    if (
       boardInfo.topRight === boardInfo.midRight &&
-      boardInfo.midRight === boardInfo. bottomRight &&
-      boardInfo. topRight !== ''
-    )
-    {return winner = boardInfo.topRight}
-    if(
+      boardInfo.midRight === boardInfo.bottomRight &&
+      boardInfo.topRight !== ''
+    ) {
+      return (winner = boardInfo.topRight);
+    }
+    if (
       boardInfo.topRight === boardInfo.midCenter &&
-      boardInfo.midCenter === boardInfo. bottomLeft &&
-      boardInfo. topRight !== ''
-    )
-    {return winner = boardInfo.topRight}
-    if(
+      boardInfo.midCenter === boardInfo.bottomLeft &&
+      boardInfo.topRight !== ''
+    ) {
+      return (winner = boardInfo.topRight);
+    }
+    if (
       boardInfo.topLeft === boardInfo.midCenter &&
-      boardInfo.midCenter === boardInfo. bottomRight &&
-      boardInfo. topLeft !== ''
-    )
-    {return winner = boardInfo.topLeft}
+      boardInfo.midCenter === boardInfo.bottomRight &&
+      boardInfo.topLeft !== ''
+    ) {
+      return (winner = boardInfo.topLeft);
+    }
   }
 
   return (
@@ -144,36 +140,34 @@ function App(): React.JSX.Element {
       <View style={styles.container}>
         <Text style={styles.heading}>Tic Tac Toe</Text>
         <View style={styles.playerTurn}>
-          <Text style={styles.turn}>Player {turn === 'circle' ? '0' : 'X'}'s turn</Text>
+          <Text style={styles.turn}>
+            Player {turn === 'circle' ? '0' : 'X'}'s turn
+          </Text>
         </View>
 
         <View style={styles.boardContainer}>
-          <FlatList 
-          numColumns={3}
-          contentContainerStyle = {{alignItems: 'center', }}
+          <FlatList
+            numColumns={3}
+            contentContainerStyle={{alignItems: 'center'}}
             data={dataArray}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => (
               <View style={styles.boardMoves}>
                 <Pressable onPress={() => updateBoardInfo(item[0], turn)}>
                   {item[1] === '' ? (
-                    <Icon name='edit' size={30} />
+                    <Icon name="edit" size={30} />
                   ) : (
                     <Icon name={item[1]} size={30} />
                   )}
-                  
                 </Pressable>
               </View>
             )}
           />
         </View>
 
-        <Pressable
-          style={styles.button}
-          onPress={() => reloadGame()}>
+        <Pressable style={styles.button} onPress={() => reloadGame()}>
           <Text style={styles.reloadGame}>Reload Game</Text>
         </Pressable>
-        <Text>{turn}</Text>
       </View>
     </>
   );
@@ -202,16 +196,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   boardContainer: {
-    
-    
     marginVertical: 20,
     flexDirection: 'row',
-    
   },
   boardMoves: {
     alignItems: 'center',
     justifyContent: 'center',
-    
+
     backgroundColor: '#95e89d',
     margin: 10,
     padding: 10,
@@ -226,8 +217,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
- 
-
 });
 
 export default App;
